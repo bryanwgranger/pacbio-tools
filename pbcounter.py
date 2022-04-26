@@ -1,4 +1,4 @@
-import HTSeq
+import pysam
 import sys
 import re
 from collections import Counter
@@ -8,13 +8,13 @@ def main(parser):
     args = parser.parse_args()
 
     ## read the Fastq file and the sort it based on read length (smaller reads first)
-    fastq_file = HTSeq.FastqReader(args.inFastq if args.inFastq else sys.stdin)
-    sorted_fastq = sorted(fastq_file, key=lambda s: len(s))
+    fastq_file = pysam.FastqFile(args.inFastq if args.inFastq else sys.stdin)
+    sorted_fastq = sorted(fastq_file, key=lambda s: len(s.sequence))
 
     ## read the motifs from the Fasta file and create a list of them
     ## this preserves the order of the motifs
-    fasta_file = HTSeq.FastaReader(args.motifs)
-    sequences = [str(s) for s in fasta_file]
+    fasta_file = pysam.FastxFile(args.motifs)
+    sequences = [s.sequence for s in fasta_file]
 
     # create a regular expression for each motif
     patts = re.compile('(' + ')|('.join(sequences) + ')')
@@ -36,12 +36,12 @@ def main(parser):
         for read in sorted_fastq:
 
             #search the read for the motifs using regex
-            count_dict = Counter([s.group() for s in patts.finditer(str(read))])
+            count_dict = Counter([s.group() for s in patts.finditer(read.sequence)])
             #update the dictionary for any motifs with zero counts
             count_dict.update({s:0 for s in sequences if s not in count_dict})
             #add the read name and total length to the dictionary
             count_dict['read'] = read.name
-            count_dict['total length'] = len(read.seq)
+            count_dict['total length'] = len(read.sequence)
 
             # write the data to a row in the csv file
             csv_writer.writerow(count_dict)
