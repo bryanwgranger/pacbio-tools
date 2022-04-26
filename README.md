@@ -10,7 +10,7 @@ This tool will find specified motifs in a given Fastq file and report the counts
 ### Example
 
 ```
-usage: pbcount.py [-h] [-i,--inFastq INFASTQ] -m,--motifs MOTIFS
+usage: pbcounter.py [-h] [-i,--inFastq INFASTQ] -m,--motifs MOTIFS
                   [-o, --output OUTPUT]
 
 quick count of motifs per read from fastq of extracted repeat sequences
