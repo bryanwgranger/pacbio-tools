@@ -35,3 +35,5 @@ Using the provided fastq and motif files as inputs:
 | m64012_191221_044659/114296049/ccs/2280_2376 | 22 | 1 | 8 | 1 | 0 | 96 |
 | m64012_191221_044659/114493158/ccs/2278_2374 | 22 | 1 | 8 | 1 | 0 | 96 |
 | m64012_191221_044659/143526750/ccs/2234_2330 | 20 | 0 | 7 | 2 | 0 | 96 |
+
+Sample data retrieved from [PacBio](https://www.pacb.com/connect/datasets/).
